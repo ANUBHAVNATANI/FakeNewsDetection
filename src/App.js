@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import * as tf from "@tensorflow/tfjs";
 
+
+
+
+async function loadModel(){
+  let model = await tf.loadModel("http://s000.tinyupload.com/index.php?file_id=19723243508837339565");
+  const pred = model.predict([1,4,5,6]).dataSync();
+  console.log(pred);
+  return model
+}
+/*
+function predict(){
+  //let c = loadModel();
+  //const pred = c.predict([1,4,5,6]).dataSync();
+  console.log(pred);
+}
+*/
 class App extends Component {
+  
+  
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <div>
+          Tfjs try
+          </div>
+          <div>
+          <form>
+            <button onClick={loadModel()} />
+            </form>          
+          </div>
       </div>
     );
   }
