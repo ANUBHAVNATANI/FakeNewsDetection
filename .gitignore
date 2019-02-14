@@ -24,3 +24,4 @@ yarn-error.log*
 
 #jupyter notebook
 .ipynb_checkpoints
+model_protos/.ipynb_checkpoints/*.ipynb
