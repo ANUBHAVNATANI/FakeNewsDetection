@@ -1,38 +1,71 @@
-import React, { Component } from 'react';
-//import logo from './logo.svg';
-import './App.css';
-import * as tf from "@tensorflow/tfjs";
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import {reactLocalStorage} from 'reactjs-localstorage';
+import CommentList from "./components/commentList";
+import CommentForm from "./components/createComment";
 
-
-
-
-async function loadModel(){
-  let model = await tf.loadModel("http://s000.tinyupload.com/index.php?file_id=19723243508837339565");
-  const pred = model.predict([1,4,5,6]).dataSync();
-  console.log(pred);
-  return model
-}
-/*
-function predict(){
-  //let c = loadModel();
-  //const pred = c.predict([1,4,5,6]).dataSync();
-  console.log(pred);
-}
-*/
 class App extends Component {
-  
-  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      comments:[]
+    };
+
+    this.addComment = this.addComment.bind(this);
+  }
+
+  handleStateChange(){
+    let d = reactLocalStorage.getObject('stateC');
+    console.log(d);
+  }
+
+  /**
+   * Add new comment
+   * @param {Object} comment
+   */
+  addComment(comment) {
+    this.setState({
+      loading: false,
+      comments: [comment, ...this.state.comments]
+    });
+  }
+
   render() {
+    const loadingSpin = this.state.loading ? "App-logo Spin" : "App-logo";
     return (
-      <div>
-        <div>
-          Tfjs try
+      <div className="App container bg-light shadow">
+        <header className="App-header">
+          <img src={logo} className={loadingSpin} alt="logo" />
+          <h1 className="App-title">
+            React Comments
+            <span className="px-2" role="img" aria-label="Chat">
+              💬
+            </span>
+          </h1>
+          <p>
+            Checkout the tutorial on{" "}
+            <a className="text-light" href="https://qcode.in">
+              QCode.in
+            </a>
+          </p>
+        </header>
+
+        <div className="row">
+          <div className="col-4  pt-3 border-right">
+            <h6>Comment Checker</h6>
+            <CommentForm addComment={this.addComment} />
           </div>
-          <div>
-          <form>
-            <button onClick={loadModel()} />
-            </form>          
+          <div className="col-8  pt-3 bg-white">
+            <CommentList
+              loading={this.state.loading}
+              comments={this.state.comments}
+            />
           </div>
+          <div>{this.handleStateChange}</div>
+        </div>
       </div>
     );
   }
