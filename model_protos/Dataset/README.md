@@ -6,4 +6,5 @@
 
 3.Global Vector for Word Representation -- https://nlp.stanford.edu/projects/glove/ 
 
+4.Fake news dataset - it is a combination of Getting Real about fake news dataset and real news to get both kinds of news to the dataset
  
