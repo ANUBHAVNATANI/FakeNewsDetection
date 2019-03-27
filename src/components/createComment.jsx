@@ -123,15 +123,22 @@ class CreateComment extends Component {
   state = {
     comment: "",
     label: [],
-    model: null,
-    commentToBeChecked: ""
+    model: null
   };
 
   async predict() {
     let net = await this.state.model;
-    let comment = this.state.commentToBeChecked;
+    let comment = this.state.comment;
     const result = await net.classify([comment]);
-    return result;
+    let n = 0;
+    let c = [];
+    while (n < 4) {
+      if (result[n].results[0].match === true) {
+        c.push(result[n].label);
+      }
+      n = n + 1;
+    }
+    this.setState({ label: c });
   }
   componentDidMount() {
     //console.log("got here");
@@ -153,29 +160,11 @@ class CreateComment extends Component {
   componentDidUpdate() {
     //updation after the set state method
     //console.log(this.state);
-
-    const model = this.state.model;
-    const comment = this.state.commentToBeChecked;
     //console.log(model);
     //console.log(comment);
-
-    if (model !== null && comment !== "") {
-      this.predict().then(result => {
-        let n = 0;
-        let c = [];
-        while (n < 4) {
-          if (result[n].results[0].match === true) {
-            c.push(result[n].label);
-          }
-          n = n + 1;
-        }
-        console.log(c);
-      });
-
-      //const data = [comment];
-      //const result = model.classify(data);
-      //console.log(result);
-    }
+    //const data = [comment];
+    //const result = model.classify(data);
+    //console.log(result);
   }
 
   //helper function
@@ -191,11 +180,25 @@ class CreateComment extends Component {
   */
   onFormSubmit = event => {
     //console.log("Came here");
-    this.setState({ commentToBeChecked: this.state.comment });
     event.preventDefault();
+    //this.setState({ commentToBeChecked: this.state.comment });
+    this.predict();
+
     //console.log("hey i am invoked");
   };
 
+  renderLabel = () => {
+    const labels = this.state.label;
+    if (labels !== 0) {
+      const labelItems = labels.map(l => (
+        <button className="ui negative basic button">
+          <i className="icon exclamation triangle" />
+          {l}
+        </button>
+      ));
+      return labelItems;
+    }
+  };
   render() {
     return (
       <div>
@@ -216,6 +219,7 @@ class CreateComment extends Component {
             <i className="icon edit" />
             Submit
           </button>
+          {this.renderLabel()}
         </form>
       </div>
     );
