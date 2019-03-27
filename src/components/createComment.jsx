@@ -188,10 +188,14 @@ class CreateComment extends Component {
   };
 
   renderLabel = () => {
+    const numbers = [1, 2, 3, 4];
     const labels = this.state.label;
     if (labels !== 0) {
-      const labelItems = labels.map(l => (
-        <button className="ui negative basic button">
+      const labelItems = labels.map((l, i) => (
+        <button
+          className="ui negative basic button"
+          key={numbers[i].toString()}
+        >
           <i className="icon exclamation triangle" />
           {l}
         </button>
