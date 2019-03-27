@@ -1,8 +1,9 @@
+/*
 import React, { Component } from "react";
 import * as toxicity from '@tensorflow-models/toxicity'; 
 import { Form, TextField,TextareaField, SubmitField } from 'react-components-form';
 import Schema from 'form-schema-validation';
-import {reactLocalStorage} from 'reactjs-localstorage';
+//import {reactLocalStorage} from 'reactjs-localstorage';
 
 const commentSchema = new Schema({
     name: {
@@ -28,8 +29,9 @@ class CommentForm extends Component {
       }
   
   componentDidMount(){
-    
-      reactLocalStorage.setObject('stateC',this.state)
+
+      //reactLocalStorage.setObject('stateC',this.state)
+      this.props.addComment(this.state.cleanComment);
 }
 
 
@@ -73,7 +75,7 @@ else{
         cleanComment:d
     });
 }
-  //console.log(this.state);
+  console.log(this.state);
 }
 //handling errors of the commenting 
 errorMethod = (errors,model) =>{
@@ -111,3 +113,27 @@ errorMethod = (errors,model) =>{
   }
 }
 export default CommentForm;
+
+*/
+
+import React, { Component } from "react";
+
+class CreateComment extends Component {
+  state = {};
+  render() {
+    return (
+      <div>
+        <form class="ui reply form">
+          <div class="field">
+            <textarea />
+          </div>
+          <div class="ui primary submit labeled icon button">
+            <i class="icon edit" /> Add Comment
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+
+export default CreateComment;

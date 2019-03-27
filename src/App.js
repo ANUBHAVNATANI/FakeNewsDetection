@@ -1,3 +1,4 @@
+/*
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
@@ -6,30 +7,16 @@ import CommentList from "./components/commentList";
 import CommentForm from "./components/createComment";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    loading: false,
+    comments:[],
+  };
 
-    this.state = {
-      loading: false,
-      comments:[]
-    };
-
-    this.addComment = this.addComment.bind(this);
-  }
-
-  handleStateChange(){
-    let d = reactLocalStorage.getObject('stateC');
-    console.log(d);
-  }
-
-  /**
-   * Add new comment
-   * @param {Object} comment
-   */
-  addComment(comment) {
+  addComment = (comment) => {
+    console.log(comment);
     this.setState({
       loading: false,
-      comments: [comment, ...this.state.comments]
+      comments: [comment.cleanComment]
     });
   }
 
@@ -56,7 +43,7 @@ class App extends Component {
         <div className="row">
           <div className="col-4  pt-3 border-right">
             <h6>Comment Checker</h6>
-            <CommentForm addComment={this.addComment} />
+            <CommentForm addComment={(comment) => {this.addComment(comment)}} />
           </div>
           <div className="col-8  pt-3 bg-white">
             <CommentList
@@ -71,4 +58,21 @@ class App extends Component {
   }
 }
 
+export default App;
+*/
+
+//new app.js code
+import React, { Component } from "react";
+import CreateComment from "./components/createComment";
+
+class App extends Component {
+  state = {};
+  render() {
+    return (
+      <div>
+        <CreateComment />
+      </div>
+    );
+  }
+}
 export default App;
