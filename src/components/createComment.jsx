@@ -182,6 +182,7 @@ class CreateComment extends Component {
     //console.log("Came here");
     event.preventDefault();
     //this.setState({ commentToBeChecked: this.state.comment });
+    this.setState({ label: [] });
     this.predict();
 
     //console.log("hey i am invoked");
@@ -209,7 +210,9 @@ class CreateComment extends Component {
         <form className="ui reply form" onSubmit={this.onFormSubmit}>
           <div className="field">
             <textarea
+              rows="2"
               value={this.state.comment}
+              placeholder="🤬 Your Comment"
               onChange={event => {
                 this.setState({ comment: event.target.value });
               }}
