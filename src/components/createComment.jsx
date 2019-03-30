@@ -138,7 +138,11 @@ class CreateComment extends Component {
       }
       n = n + 1;
     }
-    this.setState({ label: c });
+    if (c.length === 0) {
+      this.setState({ label: ["clean"] });
+    } else {
+      this.setState({ label: c });
+    }
   }
   componentDidMount() {
     //console.log("got here");
@@ -224,7 +228,7 @@ class CreateComment extends Component {
             type="submit"
           >
             <i className="icon edit" />
-            Submit
+            Comment
           </button>
           {this.renderLabel()}
         </form>
