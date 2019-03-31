@@ -21,7 +21,7 @@ class CreatePost extends Component {
     postModel: null,
     label: null,
     embeding: null,
-    posts: ["Anubhav natani is the universe boss"]
+    posts: []
   };
 
   async embed() {
