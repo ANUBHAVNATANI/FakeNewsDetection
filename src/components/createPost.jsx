@@ -21,7 +21,7 @@ class CreatePost extends Component {
     postModel: null,
     label: null,
     embeding: null,
-    posts: []
+    posts: ["Anubhav natani is the universe boss"]
   };
 
   async embed() {
@@ -75,17 +75,16 @@ class CreatePost extends Component {
       <div>
         <Segment raised>
           <React.Fragment>
-            <Item>
+            <Item key={index.toString()}>
               <Grid>
                 <Grid.Column width={4}>
                   <Image
                     src="https://semantic-ui.com/images/avatar/large/justen.jpg"
-                    size="medium"
                     fluid
                   />
                 </Grid.Column>
                 <Grid.Column width={9}>
-                  <Item.Content verticalAlign="large">
+                  <Item.Content>
                     <Header as="h2" dividing>
                       Fake Or Real Gossip You Know?
                     </Header>
@@ -138,7 +137,7 @@ class CreatePost extends Component {
   renderLabel = () => {
     const label = this.state.label;
     if (label !== null) {
-      if (label == "fake") {
+      if (label === "fake") {
         return <Button negative> {label}</Button>;
       } else {
         return <Button positive> {label}</Button>;

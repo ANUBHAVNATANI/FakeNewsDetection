@@ -81,7 +81,7 @@ class CreateComment extends Component {
   };
   renderCommentList = comments => {
     const listItems = comments.map((comment, index) => (
-      <div>
+      <div key={index.toString()}>
         <Comment>
           <Comment.Avatar
             as="a"
