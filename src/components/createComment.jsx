@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import * as toxicity from "@tensorflow-models/toxicity";
-import { Button, Comment, Form, Label } from "semantic-ui-react";
+import { Button, Comment, Form, Label, Loader } from "semantic-ui-react";
 
 class CreateComment extends Component {
   state = {
     comment: "",
     label: [],
     model: null,
-    comments: []
+    comments: [],
+    loadSit: false
   };
 
   async predict() {
@@ -43,7 +44,12 @@ class CreateComment extends Component {
       model: model
     });
   }
-
+  renderLoader = loaderStatus => {
+    if (loaderStatus) {
+      return <Loader active inline />;
+    }
+    return <div />;
+  };
   componentDidUpdate() {
     //updation after the set state method
     //console.log(this.state);
@@ -70,6 +76,7 @@ class CreateComment extends Component {
     event.preventDefault();
     //this.setState({ commentToBeChecked: this.state.comment });
     this.setState({ label: [] });
+    this.setState({ loadSit: true });
     await this.predict();
     if (this.state.label[0] === "clean") {
       this.setState({
@@ -80,6 +87,7 @@ class CreateComment extends Component {
       comment: ""
     });
     //console.log("hey i am invoked");
+    this.setState({ loadSit: false });
   };
   renderCommentList = comments => {
     const listItems = comments.map((comment, index) => (
@@ -128,7 +136,7 @@ class CreateComment extends Component {
       <Comment.Group>
         {this.renderCommentList(this.state.comments)}
         <Form reply onSubmit={this.onFormSubmit}>
-          <Form.TextArea
+          <Form.Input
             value={this.state.comment}
             placeholder="🤬 Your Comment"
             onChange={event => {
@@ -142,6 +150,7 @@ class CreateComment extends Component {
             primary
           />
           {this.renderLabel()}
+          {this.renderLoader(this.state.loadSit)}
         </Form>
       </Comment.Group>
     );

@@ -12,7 +12,8 @@ import {
   Divider,
   Image,
   Grid,
-  Label
+  Label,
+  Loader
 } from "semantic-ui-react";
 
 class CreatePost extends Component {
@@ -22,7 +23,8 @@ class CreatePost extends Component {
     postModel: null,
     label: null,
     embeding: null,
-    posts: []
+    posts: [],
+    loadSit: false
   };
 
   async embed() {
@@ -117,13 +119,19 @@ class CreatePost extends Component {
     //   this.predict();
     // }
   }
-
+  renderLoader = loaderStatus => {
+    if (loaderStatus) {
+      return <Loader active inline />;
+    }
+    return <div />;
+  };
   onFormSubmit = async event => {
     //console.log("Came here");
     event.preventDefault();
     //this.setState({ finalPost: this.state.post });
     //this.setState({ commentToBeChecked: this.state.comment });
     this.setState({ label: null });
+    this.setState({ loadSit: true });
     await this.embed();
     await this.predict();
     if (this.state.label === "real") {
@@ -134,6 +142,7 @@ class CreatePost extends Component {
     this.setState({
       post: ""
     });
+    this.setState({ loadSit: false });
     //console.log(this.state);
     //this.predict();
   };
@@ -190,6 +199,7 @@ class CreatePost extends Component {
                 primary
               />
               {this.renderLabel()}
+              {this.renderLoader(this.state.loadSit)}
             </Form>
           </Segment>
           {this.renderPostList(this.state.posts)}
