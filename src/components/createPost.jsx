@@ -11,7 +11,8 @@ import {
   Form,
   Divider,
   Image,
-  Grid
+  Grid,
+  Label
 } from "semantic-ui-react";
 
 class CreatePost extends Component {
@@ -26,8 +27,9 @@ class CreatePost extends Component {
 
   async embed() {
     //embedding code here
-    let embed_m = await this.state.embedModel;
     let post = this.state.post;
+    let embed_m = await this.state.embedModel;
+
     let embedAfter = await embed_m.embed(post);
     let embeding = await embedAfter.data();
     let x = tf.tensor2d(embeding, [1, 512]);
@@ -129,6 +131,9 @@ class CreatePost extends Component {
         posts: [...this.state.posts, this.state.post]
       });
     }
+    this.setState({
+      post: ""
+    });
     //console.log(this.state);
     //this.predict();
   };
@@ -138,9 +143,19 @@ class CreatePost extends Component {
     const label = this.state.label;
     if (label !== null) {
       if (label === "fake") {
-        return <Button negative> {label}</Button>;
+        return (
+          <Label color={"red"} size={"large"}>
+            {" "}
+            {label}
+          </Label>
+        );
       } else {
-        return <Button positive> {label}</Button>;
+        return (
+          <Label color={"green"} size={"large"}>
+            {" "}
+            {label}
+          </Label>
+        );
       }
     }
     return null;

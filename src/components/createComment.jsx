@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as toxicity from "@tensorflow-models/toxicity";
-import { Button, Comment, Form } from "semantic-ui-react";
+import { Button, Comment, Form, Label } from "semantic-ui-react";
 
 class CreateComment extends Component {
   state = {
@@ -76,7 +76,9 @@ class CreateComment extends Component {
         comments: [...this.state.comments, this.state.comment]
       });
     }
-
+    this.setState({
+      comment: ""
+    });
     //console.log("hey i am invoked");
   };
   renderCommentList = comments => {
@@ -104,18 +106,18 @@ class CreateComment extends Component {
     if (labels !== 0) {
       if (labels[0] === "clean") {
         const labelItems = labels.map((l, i) => (
-          <Button positive key={numbers[i].toString()}>
+          <Label color={"green"} size={"large"} key={numbers[i].toString()}>
             {" "}
             {l}
-          </Button>
+          </Label>
         ));
         return labelItems;
       } else {
         const labelItems = labels.map((l, i) => (
-          <Button negative key={numbers[i].toString()}>
+          <Label color={"red"} size={"large"} key={numbers[i].toString()}>
             {" "}
             {l}
-          </Button>
+          </Label>
         ));
         return labelItems;
       }
