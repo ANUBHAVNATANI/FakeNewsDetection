@@ -10,7 +10,7 @@ class CreatePost extends Component {
     postModel: null,
     label: null,
     embeding: null,
-    posts: []
+    posts: ["Anubhav natani is the universe boss"]
   };
 
   async embed() {
@@ -61,12 +61,22 @@ class CreatePost extends Component {
 
   renderPostList = posts => {
     const listItems = posts.map((post, index) => (
-      <div>
-        <li key={index.toString()}>{post}</li>
+      <div className="ui raised segment">
+        <div className="item">
+          <a className="ui tiny image">
+            <img src="https://semantic-ui.com/images/avatar/large/justen.jpg" />
+          </a>
+          <div className="content">
+            <a className="header">Anubhav Natani</a>
+            <div className="description">
+              <p>{post}</p>
+            </div>
+          </div>
+        </div>
         <CreateComment key={index.toString()} />
       </div>
     ));
-    return <ul>{listItems}</ul>;
+    return [listItems];
   };
   componentDidUpdate() {
     //console.log(this.state);
@@ -127,7 +137,7 @@ class CreatePost extends Component {
           </button>
           {this.renderLabel()}
         </form>
-        {this.renderPostList(this.state.posts)}
+        <div className="ui items">{this.renderPostList(this.state.posts)}</div>
       </div>
     );
   }

@@ -81,8 +81,19 @@ class CreateComment extends Component {
   };
   renderCommentList = comments => {
     const listItems = comments.map((comment, index) => (
-      <div>
-        <li key={index.toString()}>{comment}</li>
+      <div className="comment">
+        <a className="avatar">
+          <img src="https://semantic-ui.com/images/avatar/small/joe.jpg" />
+        </a>
+        <div className="content">
+          <a className="author">Anubhav Natani</a>
+          <div className="metadata">
+            <div className="rating">
+              <i className="star icon" />5 Faves
+            </div>
+          </div>
+          <div className="text">{comment}</div>
+        </div>
       </div>
     ));
     return <ul>{listItems}</ul>;
@@ -106,7 +117,10 @@ class CreateComment extends Component {
   render() {
     return (
       <div>
-        {this.renderCommentList(this.state.comments)}
+        <div className="ui comments">
+          {this.renderCommentList(this.state.comments)}
+        </div>
+
         <form className="ui reply form" onSubmit={this.onFormSubmit}>
           <div className="field">
             <textarea
