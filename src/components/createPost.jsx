@@ -2,6 +2,17 @@ import React, { Component } from "react";
 import * as use from "@tensorflow-models/universal-sentence-encoder";
 import * as tf from "@tensorflow/tfjs";
 import CreateComment from "./createComment";
+import {
+  Segment,
+  Button,
+  Item,
+  Header,
+  Icon,
+  Form,
+  Divider,
+  Image,
+  Grid
+} from "semantic-ui-react";
 
 class CreatePost extends Component {
   state = {
@@ -10,7 +21,7 @@ class CreatePost extends Component {
     postModel: null,
     label: null,
     embeding: null,
-    posts: ["Anubhav natani is the universe boss"]
+    posts: []
   };
 
   async embed() {
@@ -61,19 +72,40 @@ class CreatePost extends Component {
 
   renderPostList = posts => {
     const listItems = posts.map((post, index) => (
-      <div className="ui raised segment">
-        <div className="item">
-          <a className="ui tiny image">
-            <img src="https://semantic-ui.com/images/avatar/large/justen.jpg" />
-          </a>
-          <div className="content">
-            <a className="header">Anubhav Natani</a>
-            <div className="description">
-              <p>{post}</p>
-            </div>
-          </div>
-        </div>
-        <CreateComment key={index.toString()} />
+      <div>
+        <Segment raised>
+          <React.Fragment>
+            <Item>
+              <Grid>
+                <Grid.Column width={4}>
+                  <Image
+                    src="https://semantic-ui.com/images/avatar/large/justen.jpg"
+                    size="medium"
+                    fluid
+                  />
+                </Grid.Column>
+                <Grid.Column width={9}>
+                  <Item.Content verticalAlign="large">
+                    <Header as="h2" dividing>
+                      Fake Or Real Gossip You Know?
+                    </Header>
+
+                    <Item.Description>
+                      <Header size="medium">{post}</Header>
+                      <Header as="h5" disabled>
+                        Checked by an Intelligent Model using tfjs(don't worry
+                        about title)
+                      </Header>
+                    </Item.Description>
+                  </Item.Content>
+
+                  <Divider hidden />
+                  <CreateComment key={index.toString()} />
+                </Grid.Column>
+              </Grid>
+            </Item>
+          </React.Fragment>
+        </Segment>
       </div>
     ));
     return [listItems];
@@ -106,38 +138,48 @@ class CreatePost extends Component {
   renderLabel = () => {
     const label = this.state.label;
     if (label !== null) {
-      return (
-        <button className="ui negative basic button">
-          <i className="icon exclamation triangle" />
-          {label}
-        </button>
-      );
+      if (label == "fake") {
+        return <Button negative> {label}</Button>;
+      } else {
+        return <Button positive> {label}</Button>;
+      }
     }
     return null;
   };
   render() {
     return (
       <div>
-        <form className="ui form" onSubmit={this.onFormSubmit}>
-          <div className="field">
-            <textarea
-              value={this.state.post}
-              onChange={event => {
-                this.setState({ post: event.target.value });
-              }}
-            />
-          </div>
+        <Item.Group>
+          <Header as="h2" icon textAlign="center">
+            <Icon name="users" circular />
+            <Header.Content>Fake Gossip</Header.Content>
+          </Header>
 
-          <button
-            className="ui primary submit labeled icon button"
-            type="submit"
-          >
-            <i className="icon edit" />
-            Post
-          </button>
-          {this.renderLabel()}
-        </form>
-        <div className="ui items">{this.renderPostList(this.state.posts)}</div>
+          <Segment raised>
+            <Form onSubmit={this.onFormSubmit}>
+              <Form.Field>
+                <Form.TextArea
+                  label="Gossip"
+                  placeholder="Spread your gossip!!"
+                  onChange={event => {
+                    this.setState({ post: event.target.value });
+                  }}
+                  value={this.state.post}
+                />
+              </Form.Field>
+
+              <Button
+                content="Add Gossip"
+                labelPosition="left"
+                icon="edit"
+                type="submit"
+                primary
+              />
+              {this.renderLabel()}
+            </Form>
+          </Segment>
+          {this.renderPostList(this.state.posts)}
+        </Item.Group>
       </div>
     );
   }

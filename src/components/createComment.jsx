@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as toxicity from "@tensorflow-models/toxicity";
+import { Button, Comment, Form } from "semantic-ui-react";
 
 class CreateComment extends Component {
   state = {
@@ -31,10 +32,9 @@ class CreateComment extends Component {
     //console.log("got here");
     //load the tfjs model here
     const threshold = 0.9;
-    const labelsToInclude = ["identity_attack", "insult", "threat", "toxicity"];
     //loading the model
 
-    let model = toxicity.load(threshold, labelsToInclude);
+    let model = toxicity.load(threshold);
     //console.log("Successfully loaded the model");
     //const result = model.classify(["You sick"]);
     //console.log(result);
@@ -81,68 +81,67 @@ class CreateComment extends Component {
   };
   renderCommentList = comments => {
     const listItems = comments.map((comment, index) => (
-      <div className="comment">
-        <a className="avatar">
-          <img src="https://semantic-ui.com/images/avatar/small/joe.jpg" />
-        </a>
-        <div className="content">
-          <a className="author">Anubhav Natani</a>
-          <div className="metadata">
-            <div className="rating">
-              <i className="star icon" />5 Faves
-            </div>
-          </div>
-          <div className="text">{comment}</div>
-        </div>
+      <div>
+        <Comment>
+          <Comment.Avatar
+            as="a"
+            src="https://semantic-ui.com/images/avatar/small/joe.jpg"
+          />
+          <Comment.Content>
+            <Comment.Author>Anubhav Natani</Comment.Author>
+            <Comment.Text>{comment}</Comment.Text>
+            <Comment.Actions />
+          </Comment.Content>
+        </Comment>
       </div>
     ));
-    return <ul>{listItems}</ul>;
+    return [listItems];
   };
   renderLabel = () => {
-    const numbers = [1, 2, 3, 4];
+    const numbers = [1, 2, 3, 4, 5, 6, 7];
     const labels = this.state.label;
+
     if (labels !== 0) {
-      const labelItems = labels.map((l, i) => (
-        <button
-          className="ui negative basic button"
-          key={numbers[i].toString()}
-        >
-          <i className="icon exclamation triangle" />
-          {l}
-        </button>
-      ));
-      return labelItems;
+      if (labels[0] === "clean") {
+        const labelItems = labels.map((l, i) => (
+          <Button positive key={numbers[i].toString()}>
+            {" "}
+            {l}
+          </Button>
+        ));
+        return labelItems;
+      } else {
+        const labelItems = labels.map((l, i) => (
+          <Button negative key={numbers[i].toString()}>
+            {" "}
+            {l}
+          </Button>
+        ));
+        return labelItems;
+      }
     }
   };
   render() {
     return (
-      <div>
-        <div className="ui comments">
-          {this.renderCommentList(this.state.comments)}
-        </div>
-
-        <form className="ui reply form" onSubmit={this.onFormSubmit}>
-          <div className="field">
-            <textarea
-              rows="2"
-              value={this.state.comment}
-              placeholder="🤬 Your Comment"
-              onChange={event => {
-                this.setState({ comment: event.target.value });
-              }}
-            />
-          </div>
-
-          <button
-            className="ui primary submit labeled icon button"
-            type="submit"
-          >
-            <i className="icon edit" />
-            Comment
-          </button>
+      <Comment.Group>
+        {this.renderCommentList(this.state.comments)}
+        <Form reply onSubmit={this.onFormSubmit}>
+          <Form.TextArea
+            value={this.state.comment}
+            placeholder="🤬 Your Comment"
+            onChange={event => {
+              this.setState({ comment: event.target.value });
+            }}
+          />
+          <Button
+            content="Add Comment"
+            labelPosition="left"
+            icon="edit"
+            primary
+          />
           {this.renderLabel()}
-        </form>
-      </div>
+        </Form>
+      </Comment.Group>
     );
   }
 }

@@ -2,13 +2,14 @@
 import React, { Component } from "react";
 //import CreateComment from "./components/createComment";
 import CreatePost from "./components/createPost";
+import { Container } from "semantic-ui-react";
 class App extends Component {
   state = {};
   render() {
     return (
-      <div className="ui container">
+      <Container>
         <CreatePost />
-      </div>
+      </Container>
     );
   }
 }
