@@ -8,7 +8,6 @@
     "@tensorflow/tfjs": "^1.0.3",
     "@tensorflow/tfjs-converter": "^0.5.9",
     "@tensorflow/tfjs-core": "^1.0.3",
-    "form-schema-validation": "^1.17.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3",
