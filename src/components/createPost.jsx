@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as use from "@tensorflow-models/universal-sentence-encoder";
 import * as tf from "@tensorflow/tfjs";
+import CreateComment from "./createComment";
 
 class CreatePost extends Component {
   state = {
@@ -8,7 +9,8 @@ class CreatePost extends Component {
     embedModel: null,
     postModel: null,
     label: null,
-    embeding: null
+    embeding: null,
+    posts: []
   };
 
   async embed() {
@@ -57,19 +59,36 @@ class CreatePost extends Component {
     });
   }
 
+  renderPostList = posts => {
+    const listItems = posts.map((post, index) => (
+      <div>
+        <li key={index.toString()}>{post}</li>
+        <CreateComment key={index.toString()} />
+      </div>
+    ));
+    return <ul>{listItems}</ul>;
+  };
   componentDidUpdate() {
     //console.log(this.state);
-    if (this.state.embeding !== null) {
-      this.predict();
-    }
+    // if (this.state.embeding !== null) {
+    //   this.predict();
+    // }
   }
 
-  onFormSubmit = event => {
+  onFormSubmit = async event => {
     //console.log("Came here");
     event.preventDefault();
+    //this.setState({ finalPost: this.state.post });
     //this.setState({ commentToBeChecked: this.state.comment });
     this.setState({ label: null });
-    this.embed();
+    await this.embed();
+    await this.predict();
+    if (this.state.label === "real") {
+      this.setState({
+        posts: [...this.state.posts, this.state.post]
+      });
+    }
+    //console.log(this.state);
     //this.predict();
   };
   //console.log("hey i am invoked");
@@ -108,6 +127,7 @@ class CreatePost extends Component {
           </button>
           {this.renderLabel()}
         </form>
+        {this.renderPostList(this.state.posts)}
       </div>
     );
   }
