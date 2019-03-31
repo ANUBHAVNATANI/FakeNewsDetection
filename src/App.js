@@ -63,7 +63,7 @@ export default App;
 
 //new app.js code
 import React, { Component } from "react";
-import CreateComment from "./components/createComment";
+//import CreateComment from "./components/createComment";
 import CreatePost from "./components/createPost";
 class App extends Component {
   state = {};
@@ -71,7 +71,6 @@ class App extends Component {
     return (
       <div>
         <CreatePost />
-        <CreateComment />
       </div>
     );
   }
