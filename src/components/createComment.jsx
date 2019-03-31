@@ -74,20 +74,22 @@ class CreateComment extends Component {
   onFormSubmit = async event => {
     //console.log("Came here");
     event.preventDefault();
-    //this.setState({ commentToBeChecked: this.state.comment });
-    this.setState({ label: [] });
-    this.setState({ loadSit: true });
-    await this.predict();
-    if (this.state.label[0] === "clean") {
+    if (this.state.comment !== "") {
+      //this.setState({ commentToBeChecked: this.state.comment });
+      this.setState({ label: [] });
+      this.setState({ loadSit: true });
+      await this.predict();
+      if (this.state.label[0] === "clean") {
+        this.setState({
+          comments: [...this.state.comments, this.state.comment]
+        });
+      }
       this.setState({
-        comments: [...this.state.comments, this.state.comment]
+        comment: ""
       });
+      //console.log("hey i am invoked");
+      this.setState({ loadSit: false });
     }
-    this.setState({
-      comment: ""
-    });
-    //console.log("hey i am invoked");
-    this.setState({ loadSit: false });
   };
   renderCommentList = comments => {
     const listItems = comments.map((comment, index) => (

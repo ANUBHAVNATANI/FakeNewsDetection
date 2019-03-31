@@ -130,21 +130,23 @@ class CreatePost extends Component {
     event.preventDefault();
     //this.setState({ finalPost: this.state.post });
     //this.setState({ commentToBeChecked: this.state.comment });
-    this.setState({ label: null });
-    this.setState({ loadSit: true });
-    await this.embed();
-    await this.predict();
-    if (this.state.label === "real") {
+    if (this.state.post !== "") {
+      this.setState({ label: null });
+      this.setState({ loadSit: true });
+      await this.embed();
+      await this.predict();
+      if (this.state.label === "real") {
+        this.setState({
+          posts: [...this.state.posts, this.state.post]
+        });
+      }
       this.setState({
-        posts: [...this.state.posts, this.state.post]
+        post: ""
       });
+      this.setState({ loadSit: false });
+      //console.log(this.state);
+      //this.predict();
     }
-    this.setState({
-      post: ""
-    });
-    this.setState({ loadSit: false });
-    //console.log(this.state);
-    //this.predict();
   };
   //console.log("hey i am invoked");
 
