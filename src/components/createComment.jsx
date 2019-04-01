@@ -81,7 +81,7 @@ class CreateComment extends Component {
       await this.predict();
       if (this.state.label[0] === "clean") {
         this.setState({
-          comments: [...this.state.comments, this.state.comment]
+          comments: [this.state.comment, ...this.state.comments]
         });
       }
       this.setState({
@@ -110,7 +110,7 @@ class CreateComment extends Component {
     return [listItems];
   };
   renderLabel = () => {
-    const numbers = [1, 2, 3, 4, 5, 6, 7];
+    const numbers = [1, 2, 3, 4, 5];
     const labels = this.state.label;
 
     if (labels !== 0) {

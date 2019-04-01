@@ -137,7 +137,7 @@ class CreatePost extends Component {
       await this.predict();
       if (this.state.label === "real") {
         this.setState({
-          posts: [...this.state.posts, this.state.post]
+          posts: [this.state.post, ...this.state.posts]
         });
       }
       this.setState({
