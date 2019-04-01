@@ -17,12 +17,14 @@ class CreateComment extends Component {
     const result = await net.classify([comment]);
     let n = 0;
     let c = [];
-    while (n < 4) {
+    //console.log(result);
+    while (n < 7) {
       if (result[n].results[0].match === true) {
         c.push(result[n].label);
       }
       n = n + 1;
     }
+    //console.log(c);
     if (c.length === 0) {
       this.setState({ label: ["clean"] });
     } else {
@@ -34,8 +36,17 @@ class CreateComment extends Component {
     //load the tfjs model here
     const threshold = 0.9;
     //loading the model
-
-    let model = toxicity.load(threshold);
+    /*
+    const labelsToInclude = [
+      "identity_attack",
+      "insult",
+      "threat",
+      "sexual_explicit",
+      "toxicity",
+      "obscene"
+    ];
+    */
+    let model = toxicity.load(threshold /*,labelsToInclude*/);
     //console.log("Successfully loaded the model");
     //const result = model.classify(["You sick"]);
     //console.log(result);
@@ -81,7 +92,7 @@ class CreateComment extends Component {
       await this.predict();
       if (this.state.label[0] === "clean") {
         this.setState({
-          comments: [this.state.comment, ...this.state.comments]
+          comments: [...this.state.comments, this.state.comment]
         });
       }
       this.setState({
@@ -110,18 +121,16 @@ class CreateComment extends Component {
     return [listItems];
   };
   renderLabel = () => {
-    const numbers = [1, 2, 3, 4, 5];
+    const numbers = [1, 2, 3, 4, 5, 6, 7];
     const labels = this.state.label;
-
+    //console.log(labels);
     if (labels !== 0) {
       if (labels[0] === "clean") {
-        const labelItems = labels.map((l, i) => (
-          <Label color={"green"} size={"large"} key={numbers[i].toString()}>
-            {" "}
-            {l}
+        return (
+          <Label color={"green"} size={"large"}>
+            Clean
           </Label>
-        ));
-        return labelItems;
+        );
       } else {
         const labelItems = labels.map((l, i) => (
           <Label color={"red"} size={"large"} key={numbers[i].toString()}>
